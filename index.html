@@ -2,124 +2,142 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- come il tour: visibile a chi ha il link, non nei motori di ricerca (togliere questa riga per renderla ricercabile) -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- visibile solo a chi ha il link: non nei motori di ricerca (togliere questa riga per renderla ricercabile) -->
 <meta name="robots" content="noindex, nofollow, noimageindex, noarchive, nosnippet">
+<meta name="theme-color" content="#2a221b">
 <title>Aliano · Percorsi e applicazioni</title>
 <link rel="icon" href="stemma-aliano.png">
+<link rel="apple-touch-icon" href="stemma-aliano.png">
 <style>
+  /* Pagina pensata prima di tutto per lo smartphone: schede grandi, pulsanti >= 48 px */
   :root {
-    --bg: #f4f1ec; --card: #ffffff; --text: #1f1d1a; --muted: #6a645b; --line: #e4ded4;
-    --accent: #c4621a; --accent-soft: #fbeee3; --app: #2f6f63; --app-soft: #e3f0ed;
-    --shadow: 0 1px 2px rgba(31,29,26,.06), 0 6px 20px rgba(31,29,26,.08);
-    --chip: rgba(255,255,255,.94); --chip-text: #1f1d1a;
+    --bg: #f4f1ec; --card: #ffffff; --text: #1f1d1a; --muted: #5f5950; --line: #e4ded4;
+    --tour: #b4530f; --tour-soft: #fbeee3; --on-tour: #ffffff;
+    --app: #2a6a5e; --app-soft: #e3f0ed; --on-app: #ffffff;
+    --shadow: 0 1px 2px rgba(31,29,26,.06), 0 8px 24px rgba(31,29,26,.10);
+    --chip: rgba(255,255,255,.95); --chip-text: #1f1d1a;
+    --pad: max(16px, env(safe-area-inset-left));
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #161513; --card: #22201d; --text: #f1ede6; --muted: #a59e93; --line: #36322d;
-      --accent: #e8894a; --accent-soft: #3a2a1e; --app: #6cc2b0; --app-soft: #1d3330;
-      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
-      --chip: rgba(34,32,29,.94); --chip-text: #f1ede6;
+      --bg: #161513; --card: #23211e; --text: #f3efe8; --muted: #b1a99d; --line: #37332e;
+      --tour: #f0965a; --tour-soft: #3a2a1e; --on-tour: #1d1208;
+      --app: #74c9b6; --app-soft: #1d3330; --on-app: #0d1f1b;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+      --chip: rgba(35,33,30,.95); --chip-text: #f3efe8;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #161513; --card: #22201d; --text: #f1ede6; --muted: #a59e93; --line: #36322d;
-    --accent: #e8894a; --accent-soft: #3a2a1e; --app: #6cc2b0; --app-soft: #1d3330;
-    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
-    --chip: rgba(34,32,29,.94); --chip-text: #f1ede6;
+    --bg: #161513; --card: #23211e; --text: #f3efe8; --muted: #b1a99d; --line: #37332e;
+    --tour: #f0965a; --tour-soft: #3a2a1e; --on-tour: #1d1208;
+    --app: #74c9b6; --app-soft: #1d3330; --on-app: #0d1f1b;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+    --chip: rgba(35,33,30,.95); --chip-text: #f3efe8;
   }
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   html, body { margin: 0; }
   body {
     background: var(--bg); color: var(--text);
-    /* Tahoma (Windows, macOS); su telefoni senza Tahoma si usa il carattere più simile */
-    font: 17px/1.55 Tahoma, Verdana, "Segoe UI", "DejaVu Sans", sans-serif;
+    /* Tahoma su computer; sui telefoni che non l'hanno si usa il carattere più simile */
+    font: 17px/1.5 Tahoma, Verdana, "Segoe UI", "DejaVu Sans", sans-serif;
   }
 
-  /* ---------- barra fissa in alto: trasparente sopra la foto, piena quando si scorre ---------- */
+  /* ---------- barra fissa: stemma al centro, lingua a destra ---------- */
   .topbar {
-    position: fixed; top: 0; left: 0; right: 0; height: 82px; z-index: 20;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+    height: calc(72px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top);
     transition: background-color .2s ease, box-shadow .2s ease;
   }
   .topbar.scrolled {
-    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    background: color-mix(in srgb, var(--bg) 94%, transparent);
     -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
     box-shadow: 0 1px 0 var(--line), 0 4px 14px rgba(0,0,0,.08);
   }
-
-  /* ---------- stemma fisso al centro in alto ---------- */
   .stemma {
-    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-    width: 62px; height: 62px; border-radius: 50%; padding: 5px;
-    background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.25);
-    display: block;
+    position: absolute; top: calc(8px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+    width: 56px; height: 56px; border-radius: 50%; padding: 4px;
+    background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.25); display: block;
   }
   .stemma img { width: 100%; height: 100%; object-fit: contain; display: block; }
-
-  /* ---------- selettore lingua in alto a destra ---------- */
   .lang {
-    position: absolute; top: 22px; right: 16px;
-    display: inline-flex; padding: 3px; border-radius: 999px;
+    position: absolute; top: calc(12px + env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right));
+    display: inline-flex; padding: 2px; border-radius: 999px;
     background: var(--chip); box-shadow: 0 2px 10px rgba(0,0,0,.2);
   }
   .lang button {
-    font: 600 14px Tahoma, Verdana, sans-serif; letter-spacing: .04em;
-    border: 0; border-radius: 999px; padding: 6px 12px; cursor: pointer;
-    background: transparent; color: var(--chip-text);
+    min-width: 46px; min-height: 44px; padding: 0 10px;          /* area di tocco comoda */
+    font: 700 15px Tahoma, Verdana, sans-serif; letter-spacing: .03em;
+    border: 0; border-radius: 999px; cursor: pointer; background: transparent; color: var(--chip-text);
   }
-  .lang button[aria-pressed="true"] { background: var(--accent); color: #fff; }
-  .lang button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lang button[aria-pressed="true"] { background: var(--tour); color: var(--on-tour); }
+  .lang button:focus-visible { outline: 2px solid var(--tour); outline-offset: 2px; }
 
+  /* ---------- intestazione compatta: le schede si vedono subito ---------- */
   header {
-    position: relative; color: #fff; padding: 104px 16px 72px;
-    background: linear-gradient(180deg, rgba(20,16,12,.55), rgba(20,16,12,.75)), url("sfondo.jpg") center 60% / cover no-repeat, #3a3128;
+    color: #fff;
+    padding: calc(84px + env(safe-area-inset-top)) var(--pad) 56px;
+    background: linear-gradient(180deg, rgba(20,16,12,.5), rgba(20,16,12,.78)), url("sfondo.jpg") center 60% / cover no-repeat, #3a3128;
   }
-  .wrap { max-width: 720px; margin: 0 auto; }
-  header .kicker { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; opacity: .85; margin: 0 0 8px; }
-  header h1 { font-size: clamp(31px, 6vw, 48px); line-height: 1.12; margin: 0 0 12px; font-weight: 700; }
-  header p.lead { max-width: 580px; margin: 0; font-size: 18px; opacity: .92; }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  header .kicker { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; opacity: .9; margin: 0 0 6px; }
+  header h1 { font-size: clamp(28px, 8vw, 44px); line-height: 1.12; margin: 0 0 10px; font-weight: 700; }
+  header p.lead { margin: 0; font-size: 16px; opacity: .93; }
 
-  main { padding: 0 16px 48px; margin-top: -40px; position: relative; }
-  section + section { margin-top: 36px; }
-  h2 { font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; font-weight: 700; }
-  main > .wrap > section:first-child h2 { color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+  main { padding: 0 var(--pad) calc(32px + env(safe-area-inset-bottom)); margin-top: -32px; position: relative; }
+  section + section { margin-top: 28px; }
+  h2 { font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 4px; font-weight: 700; }
+  main > .wrap > section:first-child h2 { color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+  .list { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
-  /* schede una sotto l'altra, in una sola colonna */
-  .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-
+  /* ---------- scheda: tutta toccabile, con pulsante pieno in fondo ---------- */
   a.card {
-    display: flex; gap: 16px; align-items: flex-start; text-decoration: none; color: inherit;
-    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px;
-    box-shadow: var(--shadow); transition: transform .15s ease, border-color .15s ease;
-    min-height: 100%;
+    display: block; text-decoration: none; color: inherit;
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    padding: 18px 18px 16px; box-shadow: var(--shadow);
+    transition: transform .12s ease, box-shadow .12s ease;
+    touch-action: manipulation;
   }
-  a.card:hover { transform: translateY(-2px); border-color: var(--accent); }
-  a.card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .app a.card:hover { border-color: var(--app); }
+  a.card:active { transform: scale(.985); box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+  a.card:focus-visible { outline: 3px solid var(--tour); outline-offset: 3px; }
   .app a.card:focus-visible { outline-color: var(--app); }
-
+  .top { display: flex; gap: 14px; align-items: flex-start; }
   .ico {
-    flex: none; width: 54px; height: 54px; border-radius: 12px; display: grid; place-items: center;
-    background: var(--accent-soft); color: var(--accent);
+    flex: none; width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center;
+    background: var(--tour-soft); color: var(--tour);
   }
   .app .ico { background: var(--app-soft); color: var(--app); }
-  .ico svg { width: 29px; height: 29px; }
-  .body { flex: 1; min-width: 0; }
-  .body h3 { margin: 2px 0 6px; font-size: 19px; line-height: 1.25; }
-  .body p { margin: 0; color: var(--muted); font-size: 16px; }
-  .go { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-weight: 700; font-size: 16px; color: var(--accent); }
-  .app .go { color: var(--app); }
-  .go svg { width: 16px; height: 16px; transition: transform .15s ease; }
-  a.card:hover .go svg { transform: translateX(3px); }
+  .ico svg { width: 30px; height: 30px; }
+  .txt { flex: 1; min-width: 0; }
+  .txt h3 { margin: 2px 0 4px; font-size: 20px; line-height: 1.25; }
+  .txt p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.45; }
+  .cta {
+    margin-top: 16px; min-height: 52px; border-radius: 12px; padding: 12px 16px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: var(--tour); color: var(--on-tour); font-weight: 700; font-size: 18px;
+  }
+  .app .cta { background: var(--app); color: var(--on-app); }
+  .cta svg { width: 20px; height: 20px; flex: none; }
 
-  footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
-  @media (prefers-reduced-motion: reduce) { a.card, .go svg { transition: none; } a.card:hover { transform: none; } }
+  footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 var(--pad) calc(28px + env(safe-area-inset-bottom)); }
+
+  /* ---------- schermi più grandi: stessa colonna, un po' più di respiro ---------- */
+  @media (min-width: 700px) {
+    header { padding-top: 104px; padding-bottom: 72px; }
+    header p.lead { font-size: 18px; }
+    a.card { padding: 22px 24px 20px; transition: transform .15s ease, border-color .15s ease; }
+    a.card:hover { transform: translateY(-2px); border-color: var(--tour); }
+    .app a.card:hover { border-color: var(--app); }
+    .cta { justify-content: flex-start; width: max-content; min-width: 240px; padding: 12px 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { a.card { transition: none; } a.card:active, a.card:hover { transform: none; } }
 </style>
 </head>
 <body>
 <div class="topbar" id="topbar">
   <a class="stemma" href="https://comune.aliano.mt.it/" target="_blank" rel="noopener" data-i18n-attr="title:logo_title">
-    <img src="stemma-aliano.png" alt="Stemma del Comune di Aliano" data-i18n-attr="alt:logo_alt" width="52" height="52">
+    <img src="stemma-aliano.png" alt="Stemma del Comune di Aliano" data-i18n-attr="alt:logo_alt" width="48" height="48">
   </a>
   <div class="lang" role="group" aria-label="Lingua / Language">
     <button type="button" data-lang="it" aria-pressed="true" lang="it" title="Italiano">IT</button>
@@ -131,7 +149,7 @@
   <div class="wrap">
     <p class="kicker" data-i18n="kicker">Aliano · Basilicata</p>
     <h1 data-i18n="title">Percorsi e applicazioni</h1>
-    <p class="lead" data-i18n="lead">Visita virtuale dei luoghi di Aliano: due percorsi immersivi da esplorare nel browser e un'applicazione da usare durante la visita.</p>
+    <p class="lead" data-i18n="lead">Scopri Aliano con due percorsi immersivi e un'applicazione per la visita.</p>
   </div>
 </header>
 
@@ -139,42 +157,48 @@
   <div class="wrap">
     <section aria-labelledby="h-percorsi">
       <h2 id="h-percorsi" data-i18n="h_tours">Percorsi immersivi</h2>
-      <div class="grid">
+      <div class="list">
         <a class="card" href="https://nimari72.github.io/tour-lessico/" target="_blank" rel="noopener">
-          <div class="ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="4.5"/><path d="M12 3a9 9 0 0 1 0 18"/><path d="M12 3a9 9 0 0 0 0 18"/><path d="M17.5 15.8l1.5 1.2-1.9.6"/></svg>
+          <div class="top">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="4.5"/><path d="M12 3a9 9 0 0 1 0 18"/><path d="M12 3a9 9 0 0 0 0 18"/><path d="M17.5 15.8l1.5 1.2-1.9.6"/></svg>
+            </div>
+            <div class="txt">
+              <h3 data-i18n="t360">Percorso con foto 360 (Levi-Saba)</h3>
+              <p data-i18n="d360">Entra nella mostra: guardati intorno e passa da una sala all'altra.</p>
+            </div>
           </div>
-          <div class="body">
-            <h3 data-i18n="t360">Percorso con foto 360 (Levi-Saba)</h3>
-            <p data-i18n="d360">Entra nella mostra con le foto a 360 gradi: guardati intorno, passa da una sala all'altra e apri i dettagli delle opere.</p>
-            <span class="go"><span data-i18n="go_tour">Apri il percorso</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
-          </div>
+          <div class="cta"><span data-i18n="go_tour">Apri il percorso</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></div>
         </a>
         <a class="card" href="https://assetstaticpages.s3.eu-south-1.amazonaws.com/panevino_viewer/index.html?lodbase=2.5&amp;pixelratio=1&amp;joystick=1" target="_blank" rel="noopener">
-          <div class="ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z"/><path d="M12 12l8-4.6M12 12v9.2M12 12L4 7.4"/></svg>
+          <div class="top">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z"/><path d="M12 12l8-4.6M12 12v9.2M12 12L4 7.4"/></svg>
+            </div>
+            <div class="txt">
+              <h3 data-i18n="t3d">Percorso 3D (Piazza Panevino)</h3>
+              <p data-i18n="d3d">Muoviti nel modello 3D della piazza con il joystick sullo schermo.</p>
+            </div>
           </div>
-          <div class="body">
-            <h3 data-i18n="t3d">Percorso 3D (Piazza Panevino)</h3>
-            <p data-i18n="d3d">Muoviti liberamente nel modello tridimensionale della piazza, anche con il joystick sullo schermo.</p>
-            <span class="go"><span data-i18n="go_tour">Apri il percorso</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
-          </div>
+          <div class="cta"><span data-i18n="go_tour">Apri il percorso</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></div>
         </a>
       </div>
     </section>
 
     <section class="app" aria-labelledby="h-app">
       <h2 id="h-app" data-i18n="h_app">Applicazione mobile</h2>
-      <div class="grid">
+      <div class="list">
         <a class="card" href="https://aton-changes.net:8083/container_linear_tours/1_lang_page_aliano_linear_tours.html" target="_blank" rel="noopener">
-          <div class="ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><circle cx="10" cy="8" r="1.3"/><circle cx="14" cy="13.5" r="1.3"/><path d="M10 9.3c0 2.2 4 1.6 4 2.9"/></svg>
+          <div class="top">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><circle cx="10" cy="8" r="1.3"/><circle cx="14" cy="13.5" r="1.3"/><path d="M10 9.3c0 2.2 4 1.6 4 2.9"/></svg>
+            </div>
+            <div class="txt">
+              <h3 data-i18n="tapp">Applicazione dei 2 tour principali</h3>
+              <p data-i18n="dapp">Segui passo dopo passo i due itinerari tra le strade di Aliano.</p>
+            </div>
           </div>
-          <div class="body">
-            <h3 data-i18n="tapp">Applicazione dei 2 tour principali</h3>
-            <p data-i18n="dapp">Segui passo dopo passo i due itinerari principali tra le strade di Aliano.</p>
-            <span class="go"><span data-i18n="go_app">Apri l'applicazione</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
-          </div>
+          <div class="cta"><span data-i18n="go_app">Apri l'applicazione</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></div>
         </a>
       </div>
     </section>
@@ -190,16 +214,16 @@ const TEXT = {
     page_title: "Aliano · Percorsi e applicazioni",
     kicker: "Aliano · Basilicata",
     title: "Percorsi e applicazioni",
-    lead: "Visita virtuale dei luoghi di Aliano: due percorsi immersivi da esplorare nel browser e un'applicazione da usare durante la visita.",
+    lead: "Scopri Aliano con due percorsi immersivi e un'applicazione per la visita.",
     h_tours: "Percorsi immersivi",
     t360: "Percorso con foto 360 (Levi-Saba)",
-    d360: "Entra nella mostra con le foto a 360 gradi: guardati intorno, passa da una sala all'altra e apri i dettagli delle opere.",
+    d360: "Entra nella mostra: guardati intorno e passa da una sala all'altra.",
     t3d: "Percorso 3D (Piazza Panevino)",
-    d3d: "Muoviti liberamente nel modello tridimensionale della piazza, anche con il joystick sullo schermo.",
+    d3d: "Muoviti nel modello 3D della piazza con il joystick sullo schermo.",
     go_tour: "Apri il percorso",
     h_app: "Applicazione mobile",
     tapp: "Applicazione dei 2 tour principali",
-    dapp: "Segui passo dopo passo i due itinerari principali tra le strade di Aliano.",
+    dapp: "Segui passo dopo passo i due itinerari tra le strade di Aliano.",
     go_app: "Apri l'applicazione",
     footer: "Aliano (MT) · I collegamenti si aprono in una nuova scheda",
     logo_alt: "Stemma del Comune di Aliano",
@@ -209,16 +233,16 @@ const TEXT = {
     page_title: "Aliano · Tours and apps",
     kicker: "Aliano · Basilicata, Italy",
     title: "Tours and apps",
-    lead: "A virtual visit to the places of Aliano: two immersive tours to explore in your browser and an app to use during your visit.",
+    lead: "Discover Aliano with two immersive tours and an app for your visit.",
     h_tours: "Immersive tours",
     t360: "360° photo tour (Levi-Saba)",
-    d360: "Step inside the exhibition with 360° photos: look around, move from room to room and open the details of the artworks.",
+    d360: "Step inside the exhibition: look around and move from room to room.",
     t3d: "3D tour (Piazza Panevino)",
-    d3d: "Move freely through the three-dimensional model of the square, also with the on-screen joystick.",
+    d3d: "Explore the 3D model of the square with the on-screen joystick.",
     go_tour: "Open the tour",
     h_app: "Mobile app",
     tapp: "App for the 2 main tours",
-    dapp: "Follow the two main routes through the streets of Aliano, step by step.",
+    dapp: "Follow the two routes through the streets of Aliano, step by step.",
     go_app: "Open the app",
     footer: "Aliano (MT) · Links open in a new tab",
     logo_alt: "Coat of arms of the Municipality of Aliano",
@@ -238,16 +262,15 @@ function setLang(lang) {
   document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
   try { localStorage.setItem("aliano_lang", lang); } catch (_) {}
 }
-
 document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
 
-// barra in alto piena appena la pagina scorre (così stemma e lingua non coprono il testo)
+// barra in alto piena appena la pagina scorre (stemma e lingua non coprono il testo)
 const topbar = document.getElementById("topbar");
-const onScroll = () => topbar.classList.toggle("scrolled", window.scrollY > 40);
+const onScroll = () => topbar.classList.toggle("scrolled", window.scrollY > 30);
 window.addEventListener("scroll", onScroll, { passive: true });
 onScroll();
 
-// lingua iniziale: ?lang=en nell'indirizzo, poi l'ultima scelta, poi la lingua del browser
+// lingua iniziale: ?lang=en nell'indirizzo, poi l'ultima scelta, poi la lingua del telefono
 (function () {
   let lang = new URLSearchParams(location.search).get("lang");
   if (!TEXT[lang]) { try { lang = localStorage.getItem("aliano_lang"); } catch (_) { lang = null; } }
