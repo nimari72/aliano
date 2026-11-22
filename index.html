@@ -6,7 +6,7 @@
 <!-- visibile solo a chi ha il link: non nei motori di ricerca (togliere questa riga per renderla ricercabile) -->
 <meta name="robots" content="noindex, nofollow, noimageindex, noarchive, nosnippet">
 <meta name="theme-color" content="#2a221b">
-<title>Aliano · Percorsi e applicazioni</title>
+<title>Aliano e Carlo Levi</title>
 <link rel="icon" href="stemma-aliano.png">
 <link rel="apple-touch-icon" href="stemma-aliano.png">
 <style>
@@ -148,8 +148,8 @@
 <header>
   <div class="wrap">
     <p class="kicker" data-i18n="kicker">Aliano · Basilicata</p>
-    <h1 data-i18n="title">Percorsi e applicazioni</h1>
-    <p class="lead" data-i18n="lead">Scopri Aliano con due percorsi immersivi e un'applicazione per la visita.</p>
+    <h1 data-i18n="title">Aliano e Carlo Levi</h1>
+    <p class="lead" data-i18n="lead">Scopri Aliano con tre percorsi immersivi e un'applicazione per la visita.</p>
   </div>
 </header>
 
@@ -158,13 +158,25 @@
     <section aria-labelledby="h-percorsi">
       <h2 id="h-percorsi" data-i18n="h_tours">Percorsi immersivi</h2>
       <div class="list">
+        <a class="card" href="https://nimari72.github.io/tour-museo-levi/">
+          <div class="top">
+            <div class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="4.5"/><path d="M12 3a9 9 0 0 1 0 18"/><path d="M12 3a9 9 0 0 0 0 18"/><path d="M17.5 15.8l1.5 1.2-1.9.6"/></svg>
+            </div>
+            <div class="txt">
+              <h3 data-i18n="tmuseo">Percorso con foto 360 (Levi - Saba)</h3>
+              <p data-i18n="dmuseo">Visita il museo di Palazzo De Leo: gli oggetti di Carlo Levi e i libri di Levi e Saba.</p>
+            </div>
+          </div>
+          <div class="cta"><span data-i18n="go_tour">Apri il percorso</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></div>
+        </a>
         <a class="card" href="https://nimari72.github.io/tour-lessico/">
           <div class="top">
             <div class="ico" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="4.5"/><path d="M12 3a9 9 0 0 1 0 18"/><path d="M12 3a9 9 0 0 0 0 18"/><path d="M17.5 15.8l1.5 1.2-1.9.6"/></svg>
             </div>
             <div class="txt">
-              <h3 data-i18n="t360">Percorso con foto 360 (Levi-Saba)</h3>
+              <h3 data-i18n="t360">Percorso con foto 360 (Lessico familiare)</h3>
               <p data-i18n="d360">Entra nella mostra: guardati intorno e passa da una sala all'altra.</p>
             </div>
           </div>
@@ -211,12 +223,14 @@
 // Testi della pagina in italiano e inglese
 const TEXT = {
   it: {
-    page_title: "Aliano · Percorsi e applicazioni",
+    page_title: "Aliano e Carlo Levi",
     kicker: "Aliano · Basilicata",
-    title: "Percorsi e applicazioni",
-    lead: "Scopri Aliano con due percorsi immersivi e un'applicazione per la visita.",
+    title: "Aliano e Carlo Levi",
+    lead: "Scopri Aliano con tre percorsi immersivi e un'applicazione per la visita.",
     h_tours: "Percorsi immersivi",
-    t360: "Percorso con foto 360 (Levi-Saba)",
+    tmuseo: "Percorso con foto 360 (Levi - Saba)",
+    dmuseo: "Visita il museo di Palazzo De Leo: gli oggetti di Carlo Levi e i libri di Levi e Saba.",
+    t360: "Percorso con foto 360 (Lessico familiare)",
     d360: "Entra nella mostra: guardati intorno e passa da una sala all'altra.",
     t3d: "Percorso 3D (Piazza Panevino)",
     d3d: "Muoviti nel modello 3D della piazza con il joystick sullo schermo.",
@@ -230,12 +244,14 @@ const TEXT = {
     logo_title: "Sito del Comune di Aliano",
   },
   en: {
-    page_title: "Aliano · Tours and apps",
+    page_title: "Aliano and Carlo Levi",
     kicker: "Aliano · Basilicata, Italy",
-    title: "Tours and apps",
-    lead: "Discover Aliano with two immersive tours and an app for your visit.",
+    title: "Aliano and Carlo Levi",
+    lead: "Discover Aliano with three immersive tours and an app for your visit.",
     h_tours: "Immersive tours",
-    t360: "360° photo tour (Levi-Saba)",
+    tmuseo: "360° photo tour (Levi - Saba)",
+    dmuseo: "Visit the museum in Palazzo De Leo: Carlo Levi's belongings and books by Levi and Saba.",
+    t360: "360° photo tour (Lessico familiare)",
     d360: "Step inside the exhibition: look around and move from room to room.",
     t3d: "3D tour (Piazza Panevino)",
     d3d: "Explore the 3D model of the square with the on-screen joystick.",
